@@ -2,17 +2,23 @@
   <div class="row">
     <div class="col">
       <h1 class="h2 my-3 d-flex justify-content-center">Movies to watch 🍿</h1>
-
-      <div>
-        <%= form_with url: movies_path, method: :get, html: {class: "mb-4"} do |f| %>
+      <div data-controller='search-movies'>
+        <!-- <input type="text" data-search-movies-target='input'> -->
+        <!-- <input type="text" data-action='keyup->search-movies#update'> -->
+        <%= form_with url: movies_path, method: :get, html: { class: "mb-4", data: { search_movies_target: 'form' }} do |f| %>
           <%= f.label :query, "Type a movie title" %>
           <%= f.text_field :query,
                            class: "form-control",
-                           value: params[:query]
+                           value: params[:query],
+                           data: {
+                            search_movies_target: 'input',
+                            action: 'keyup->search-movies#update'
+                           }
                            %>
         <% end %>
-
-        <%= render "list", movies: @movies %>
+        <div data-search-movies-target='list'>
+          <%= render "list", movies: @movies %>
+        </div>
       </div>
     </div>
   </div>
